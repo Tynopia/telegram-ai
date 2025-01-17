@@ -1,4 +1,4 @@
-import { registerFunction } from "./agent";
+import { registerFunction } from "./agent.js";
 import { omit } from "@agentic/core"
 import { z } from "zod";
 

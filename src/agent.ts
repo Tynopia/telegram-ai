@@ -1,8 +1,8 @@
-import zodToJsonSchema from "zod-to-json-schema"
 import OpenAI from "openai"
 
 import { AssistantStreamEvent } from "openai/resources/beta/assistants"
-import { EventEmitter } from "stream"
+import { zodToJsonSchema } from "zod-to-json-schema"
+import { EventEmitter } from "node:events"
 import { ZodObject, z } from "zod"
 
 type MaybePromise<T> = T | Promise<T>

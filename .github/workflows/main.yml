@@ -1,0 +1,28 @@
+name: Build and Deploy Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: |
+          docker build -t telegram-ai:latest .
+      
+      - name: Stop and remove existing containers
+        run: |
+          cd /home
+          docker-compose down
+
+      - name: Start containers with updated image
+        run: |
+          cd /home
+          docker-compose up -d

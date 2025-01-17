@@ -1,11 +1,11 @@
 import "dotenv/config"
-import "./bing"
+import "./bing.js"
 
 import TelegramBot from "node-telegram-bot-api";
 import Database from "better-sqlite3";
 import OpenAI from "openai";
 
-import { createAssistant, EventHandler, registerFunction } from "./agent";
+import { createAssistant, EventHandler, registerFunction } from "./agent.js";
 import { Assistant } from "openai/resources/beta/assistants";
 import { CronJob } from "cron";
 import { z } from "zod";
@@ -32,7 +32,7 @@ if (!process.env.TELEGRAM) {
     throw new Error("Telegram environment variable is required")
 }
 
-const db = new Database("database.db", { verbose: console.log });
+const db = new Database("data/database.db", { verbose: console.log, fileMustExist: true });
 const telegramBot = new TelegramBot(process.env.TELEGRAM, { polling: true });
 
 const assistants: Record<string, Assistant> = {}
