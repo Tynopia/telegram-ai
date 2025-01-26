@@ -62,6 +62,8 @@ export class EventHandler extends EventEmitter {
                 if (answer?.type === "text") {
                     resolve(answer.text.value)
                 }
+            } else if (event.event === "thread.run.failed") {
+                resolve(`Der Run ist fehlgeschlagen: ${event.data.last_error?.message}`)
             }
         } catch (error) {
             console.error("Error handling event:", error);
