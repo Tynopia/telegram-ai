@@ -1,5 +1,6 @@
 import "dotenv/config"
 import "./bing.js"
+import "./weather.js"
 
 import TelegramBot from "node-telegram-bot-api";
 import Database from "better-sqlite3";
@@ -242,7 +243,9 @@ function createPrompt(job?: Job) {
         const thread = await createThread(job.tenant)
         const result = await createMessage(job.tenant, thread.id, job.prompt)
 
-        telegramBot.sendMessage(job.tenant, result);
+        telegramBot.sendMessage(job.tenant, result, {
+            parse_mode: "Markdown"
+        });
     }, null, true, timeZone);
 
     cronJobs[job.id] = cronJob
