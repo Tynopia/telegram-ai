@@ -206,6 +206,8 @@ async function getThread(tenant: string) {
 }
 
 async function createMessage(tenant: string, threadId: string, content: string) {
+    console.log(`Creating message for tenant ${tenant} in thread ${threadId}`)
+
     const assistant = await getAssistant(tenant);
 
     await client.beta.threads.messages.create(threadId, {
@@ -237,9 +239,13 @@ function createPrompt(job?: Job) {
         cronJobs[job.id].stop()
     }
 
+    console.log(`Creating prompt for job ${job.id}`)
+
     const timeZone = db.prepare<string, string>("SELECT timezone FROM tenants WHERE number = ?").pluck().get(job.tenant)
 
     const cronJob = new CronJob(`${job.minute} ${job.hour} * * *`, async function () {
+        console.log(`Running cron job for ai job ${job.id}`)
+
         const thread = await createThread(job.tenant)
         const result = await createMessage(job.tenant, thread.id, job.prompt)
 
@@ -257,6 +263,8 @@ telegramBot.on("message", async function (message) {
     }
 
     const chatId = message.chat.id;
+
+    console.log(`Received message from chat ${chatId}`);
 
     const interval = setInterval(function () {
         telegramBot.sendChatAction(chatId, "typing");

@@ -249,6 +249,8 @@ registerFunction(
         q: z.string().describe("search query")
     }),
     async function (queryOrOpts: string | bing.SearchQuery) {
+        console.log("Searching Bing for: ", queryOrOpts)
+
         const defaultQuery: Partial<bing.SearchQuery> = {
             mkt: "de-DE"
         }
@@ -272,6 +274,8 @@ registerFunction(
                 searchParams
             })
             .json<bing.SearchResponse>()
+
+        console.log("Got response from Bing")
 
         return omit(response, "rankingResponse")
     }
